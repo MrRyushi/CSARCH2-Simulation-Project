@@ -1,6 +1,9 @@
 const smallestExponentNormalized = -16382;
 const largestExponentNormalized = 16383;
 const biasForEPrime = 16383;
+const maxInfinity = 1.0 * Math.pow(2, 16383);
+const minInfinity = -1.0 * Math.pow(2, 16383);
+console.log(maxInfinity);
 
 // E' representation 
 
@@ -13,7 +16,7 @@ const biasForEPrime = 16383;
 // positive normal number is +1.0 x 2^denormalizedExponent
 // smallest-magnitude negative normal number is -1.0 x 2^denormalizedExponent
 const getExcess = (base) => {
-  return parseInt(base) + parseInt("biasForEPrime");
+  return parseInt(base) + parseInt("16383");
 };
 
 const getBinary = (decimal) => {
@@ -77,6 +80,8 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         alert("Invalid binary input");
         return; // Exit the function early
     }
+  
+
     baseInput = parseInt(document.querySelector("#base-2").value);
 } else if (selectedForm === 'decimal') {
     let decimalInput = parseFloat(document.querySelector("#decimal").value);
@@ -84,7 +89,7 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         alert("Invalid decimal input");
         return; // Exit the function early
     }
-    let baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
+    baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
 
     // Adjust the decimal input according to the base input
     decimalInput *= Math.pow(10, baseInput);
@@ -95,10 +100,12 @@ document.querySelector("#submit").addEventListener("click", function (e) {
     // Reset the base input to 0 since it's always 10
     baseInput = 0;
 }
+
   
   // declare the binary digits
   let binaryDigits = "";
   let signBit = "";
+  let hexOutput, excess, exponent, significand, remainingDigits;
   // append the sign bit
   if (binaryInput < 0) {
     signBit = "1";
@@ -107,7 +114,7 @@ document.querySelector("#submit").addEventListener("click", function (e) {
     signBit = "0";
   }
   binaryDigits += signBit;
-
+  
   // normalize the binary input
  if (binaryInput > 1) {
     while (Math.floor(binaryInput) != 1) {
@@ -123,22 +130,44 @@ document.querySelector("#submit").addEventListener("click", function (e) {
     // baseInput and binaryinput remains the same
   }
 
-  // get the excess
-  let excess = getExcess(baseInput);
+  // Zero special case
+  if(binaryInput != 0) {
+     // get the excess
+    excess = getExcess(baseInput);
 
-  // get the binary value of excess and append
-  let exponent = getBinary(excess);
-  binaryDigits = binaryDigits + exponent;
+     // get the binary value of excess and append
+    exponent = getBinary(excess);
+    binaryDigits = binaryDigits + exponent;
+ 
+     // get the remaining digits
+    remainingDigits = getRemainingDigits(binaryInput);
+ 
+     // add zeroes to binary if not complete
+    significand = completeSignificand(remainingDigits);
+    binaryDigits = binaryDigits + significand;
+ 
+     // get hex value
+    hexOutput = getHex(binaryDigits);
+    
+  } else {
+     // get the binary value of excess and append
+    exponent = "000000000000000"
+    binaryDigits = binaryDigits + exponent;
+ 
+     // get the remaining digits
+    remainingDigits = getRemainingDigits("0");
+ 
+     // add zeroes to binary if not complete
+    significand = completeSignificand(remainingDigits);
+    binaryDigits = binaryDigits + significand;
+ 
+     // get hex value
+    hexOutput = getHex(binaryDigits);
+  }
 
-  // get the remaining digits
-  let remainingDigits = getRemainingDigits(binaryInput);
+ 
 
-  // add zeroes to binary if not complete
-  let significand = completeSignificand(remainingDigits);
-  binaryDigits = binaryDigits + significand;
 
-  // get hex value
-  let hexOutput = getHex(binaryDigits);
 
   // assign to output element
   document.querySelector("#hexOutput").innerHTML = hexOutput;
