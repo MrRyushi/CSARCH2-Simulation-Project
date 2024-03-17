@@ -17,13 +17,18 @@
           </h1>
         </div>
 
-        <div class="flex items-center justify-center gap-10 y-3 bg-black p-10">
-          <div class="text-end text-xl w-1/2 space-y-4">
-            <select id="formSelector">
-              <option value="binary" selected>Binary</option>
-              <option value="decimal">Decimal</option>
-            </select>
+        
 
+        <div class="flex flex-col items-center justify-center gap-10">
+          <div class="text-end text-xl">
+            <!-- Input Type-->
+            <div class="flex flex-wrap items-center justify-center gap-2 ">
+              <label for="formSelector" class="text-white">Select Input Type: </label>
+              <select id="formSelector">
+                <option value="binary" selected>Binary</option>
+                <option value="decimal">Decimal</option>
+              </select>
+            </div>
             <!--Input-->
             <div id="binaryForm" class="space-y-5">
               <div class=""></div>
@@ -76,21 +81,25 @@
               </div>
             </div>
           </div>
-            <!---Button-->
-          <div class="items-center flex justify-center">
-            <button
-              id="submit"
-              class="text-white bg-yellow-700 p-5 px-5 rounded-lg font-bold"
-            >
-              Get Conversion
-            </button>
-          </div>
+            
+          
+            <div class="flex items-center justify-center gap-2 space-y-2">
+                        
+              <!---Button-->
+              <div class="flex flex-wrap items-center gap-2">
+                <button
+                  id="submit"
+                  class="text-white bg-yellow-700 p-5 px-5 rounded-lg font-bold"
+                >
+                  Get Conversion
+                </button>
+              </div>
+            </div>
         </div>
 
         
 
         <!--Output-->
-        
         <div class="space-y-3">
           <h3 class="text-xl text-white text-center">Binary Output</h3>
           <div class="bg-white flex space-x-5 text-xl p-3 rounded-lg">

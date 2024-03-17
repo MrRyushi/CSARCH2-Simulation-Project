@@ -4,7 +4,8 @@ export default {
     "./index.html",
   ],
   theme: {
-    extend: {},
+    extend: { 
+    },
   },
   plugins: [],
 }

@@ -1,5 +1,19 @@
+const smallestExponentNormalized = -16382;
+const largestExponentNormalized = 16383;
+const biasForEPrime = 16383;
+
+// E' representation 
+
+// s, e' = 0, f = 0           0
+// s, e' = 0, f != 0          Denormalized
+// s, e' = 16383, f = 0       infinity
+// s, e' = 16383, f != 0      NaN
+
+
+// positive normal number is +1.0 x 2^denormalizedExponent
+// smallest-magnitude negative normal number is -1.0 x 2^denormalizedExponent
 const getExcess = (base) => {
-  return parseInt(base) + parseInt("16383");
+  return parseInt(base) + parseInt(biasForEPrime);
 };
 
 const getBinary = (decimal) => {
