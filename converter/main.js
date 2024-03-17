@@ -84,8 +84,16 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         alert("Invalid decimal input");
         return; // Exit the function early
     }
-    binaryInput = getBinary(decimalInput); // Convert decimal to binary
-    baseInput = 0; // Base is always 0 for binary input in this context
+    let baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
+
+    // Adjust the decimal input according to the base input
+    decimalInput *= Math.pow(10, baseInput);
+
+    // Convert the adjusted decimal input to binary
+    binaryInput = getBinary(decimalInput);
+
+    // Reset the base input to 0 since it's always 10
+    baseInput = 0;
 }
   
   // declare the binary digits
