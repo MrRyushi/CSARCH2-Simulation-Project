@@ -1,17 +1,7 @@
-const smallestExponentNormalized = -16382;
-const largestExponentNormalized = 16383;
-const biasForEPrime = 16383;
+const EXPONENT_MAX_VALUE = "1".repeat(15);
+const EXPONENT_MIN_VALUE = "0".repeat(15);
+const SIGNIFICAND_ZERO = "0".repeat(112);
 
-// E' representation 
-
-// s, e' = 0, f = 0           0
-// s, e' = 0, f != 0          Denormalized
-// s, e' = 16383, f = 0       infinity
-// s, e' = 16383, f != 0      NaN
-
-
-// positive normal number is +1.0 x 2^denormalizedExponent
-// smallest-magnitude negative normal number is -1.0 x 2^denormalizedExponent
 const getExcess = (base) => {
   return parseInt(base) + parseInt(biasForEPrime);
 };
@@ -22,15 +12,13 @@ const getBinary = (decimal) => {
 };
 
 const getHex = (binaryDigits) => {
-  console.log(binaryDigits);
   let decimal = parseInt(binaryDigits, 2);
   let hex = decimal.toString(16);
   return hex.toUpperCase();
 };
 
 const getRemainingDigits = (binaryInput) => {
-  let result = "";
-  result = binaryInput.toString().substring(2);
+  let result = binaryInput.toString().substring(2);
   return result;
 };
 
@@ -40,7 +28,6 @@ const completeSignificand = (remainingDigits) => {
   }
   return remainingDigits;
 };
-
 
 document.getElementById('formSelector').addEventListener('change', function() {
   let selectedForm = this.value;
@@ -64,7 +51,6 @@ const validateBinary = (input) => {
   return /^[01]+(\.[01]+)?$/.test(input) && (input.match(/\./g) || []).length <= 1;
 }
 
-
 document.querySelector("#submit").addEventListener("click", function (e) {
   e.preventDefault();
   
@@ -75,33 +61,34 @@ document.querySelector("#submit").addEventListener("click", function (e) {
     binaryInput = document.querySelector("#binary").value;
     if (!validateBinary(binaryInput)) {
         alert("Invalid binary input");
-        return; // Exit the function early
+        return;
     }
     baseInput = parseInt(document.querySelector("#base-2").value);
-} else if (selectedForm === 'decimal') {
+  } else if (selectedForm === 'decimal') {
     let decimalInput = parseFloat(document.querySelector("#decimal").value);
     if (!validateDecimal(decimalInput)) {
         alert("Invalid decimal input");
-        return; // Exit the function early
+        return;
     }
-    binaryInput = getBinary(decimalInput); // Convert decimal to binary
-    baseInput = 0; // Base is always 0 for binary input in this context
-}
+    baseInput = parseInt(document.querySelector("#base-10").value);
+    decimalInput *= Math.pow(10, baseInput);
+    binaryInput = getBinary(decimalInput);
+    baseInput = 0;
+  }
   
-  // declare the binary digits
   let binaryDigits = "";
   let signBit = "";
-  // append the sign bit
+  let hexOutput, excess, exponent, significand, remainingDigits;
+
   if (binaryInput < 0) {
     signBit = "1";
-    binaryInput *= -1; // make input positive
+    binaryInput *= -1;
   } else {
     signBit = "0";
   }
   binaryDigits += signBit;
 
-  // normalize the binary input
- if (binaryInput > 1) {
+  if (binaryInput > 1) {
     while (Math.floor(binaryInput) != 1) {
       binaryInput /= 10;
       baseInput += 1;
@@ -111,32 +98,49 @@ document.querySelector("#submit").addEventListener("click", function (e) {
       binaryInput *= 10;
       baseInput -= 1;
     }
-  } else {
-    // baseInput and binaryinput remains the same
   }
 
-  // get the excess
-  let excess = getExcess(baseInput);
+  const isPositiveInfinity = (binaryInput) => {
+    const exponentBits = binaryInput.substring(1, 16);
+    const significandBits = binaryInput.substring(16);
+    return exponentBits === EXPONENT_MAX_VALUE && significandBits === SIGNIFICAND_ZERO;
+  };
 
-  // get the binary value of excess and append
-  let exponent = getBinary(excess);
-  binaryDigits = binaryDigits + exponent;
+  const isNegativeInfinity = (binaryInput) => {
+    return binaryInput[0] === "1" && isPositiveInfinity(binaryInput.substring(1));
+  };
 
-  // get the remaining digits
-  let remainingDigits = getRemainingDigits(binaryInput);
+  const isDenormalized = (binaryInput) => {
+    const exponentBits = binaryInput.substring(1, 16);
+    const significandBits = binaryInput.substring(16);
+    return exponentBits === "0".repeat(15) && significandBits !== "0".repeat(112);
+  };
 
-  // add zeroes to binary if not complete
-  let significand = completeSignificand(remainingDigits);
-  binaryDigits = binaryDigits + significand;
+  if(binaryInput != 0) {
+    if (isPositiveInfinity(binaryInput)) {
+      exponent = EXPONENT_MAX_VALUE;
+      significand = SIGNIFICAND_ZERO;
+    } else if (isNegativeInfinity(binaryInput)) {
+      exponent = EXPONENT_MAX_VALUE;
+      significand = SIGNIFICAND_ZERO;
+    } else if (isDenormalized(binaryInput)) {
+      exponent = EXPONENT_MIN_VALUE;
+      significand = binaryInput.substring(16);
+    } else {
+      excess = getExcess(baseInput);
+      exponent = getBinary(excess);
+      remainingDigits = getRemainingDigits(binaryInput);
+      significand = completeSignificand(remainingDigits);
+    }
+  } else {
+    exponent = EXPONENT_MIN_VALUE;;
+    remainingDigits = getRemainingDigits("0");
+    significand = completeSignificand(remainingDigits);
+  }
 
-  // get hex value
-  let hexOutput = getHex(binaryDigits);
-
-  // assign to output element
+  hexOutput = getHex(binaryDigits + significand);
   document.querySelector("#hexOutput").innerHTML = hexOutput;
   document.querySelector("#signBit").innerHTML = signBit;
   document.querySelector("#exponent").innerHTML = exponent;
   document.querySelector("#significand").innerHTML = significand;
-
- 
 });
