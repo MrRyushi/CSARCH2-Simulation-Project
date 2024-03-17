@@ -16,7 +16,7 @@ console.log(maxInfinity);
 // positive normal number is +1.0 x 2^denormalizedExponent
 // smallest-magnitude negative normal number is -1.0 x 2^denormalizedExponent
 const getExcess = (base) => {
-  return parseInt(base) + parseInt("16383");
+  return parseInt(base) + 16383;
 };
 
 const getBinary = (decimal) => {
@@ -89,18 +89,16 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         alert("Invalid decimal input");
         return; // Exit the function early
     }
-    baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
+    let baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
 
-    // Adjust the decimal input according to the base input
-    decimalInput *= Math.pow(10, baseInput);
-
-    // Convert the adjusted decimal input to binary
-    binaryInput = getBinary(decimalInput);
+        // Adjust the decimal input according to the base input
+        decimalInput *= Math.pow(10, baseInput);
+        // Convert the adjusted decimal input to binary
+        binaryInput = getBinary(decimalInput);
 
     // Reset the base input to 0 since it's always 10
     baseInput = 0;
 }
-
   
   // declare the binary digits
   let binaryDigits = "";
