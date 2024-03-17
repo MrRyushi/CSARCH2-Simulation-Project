@@ -13,7 +13,7 @@ const biasForEPrime = 16383;
 // positive normal number is +1.0 x 2^denormalizedExponent
 // smallest-magnitude negative normal number is -1.0 x 2^denormalizedExponent
 const getExcess = (base) => {
-  return parseInt(base) + parseInt(biasForEPrime);
+  return parseInt(base) + parseInt("biasForEPrime");
 };
 
 const getBinary = (decimal) => {
