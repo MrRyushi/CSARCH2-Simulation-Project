@@ -8,5 +8,8 @@ export default {
     },
   },
   plugins: [],
+  purge: [
+    "./index.html",
+  ],
 }
 
