@@ -1,20 +1,6 @@
 const smallestExponentNormalized = -16382;
 const largestExponentNormalized = 16383;
 
-// const maxDenormalized = 1.0 * Math.pow(2, -16382);
-// const minDenormalized = -1.0 * Math.pow(2, -16382);
-// console.log(maxInfinity);
-
-// E' representation 
-
-// s, e' = 0, f = 0           0
-// s, e' = 0, f != 0          Denormalized
-// s, e' = 16383, f = 0       infinity
-// s, e' = 16383, f != 0      NaN
-
-
-// positive normal number is +1.0 x 2^denormalizedExponent
-// smallest-magnitude negative normal number is -1.0 x 2^denormalizedExponent
 const getExcess = (base) => {
     return parseInt(base) + parseInt(16383);
 };
@@ -68,28 +54,6 @@ const validateBinary = (input) => {
     // Allow an optional minus sign at the beginning, followed by binary digits and an optional decimal point
     return /^-?[01]+(\.[01]+)?$/.test(input) && (input.match(/\./g) || []).length <= 1;
 }
-
-// const getDenormalizedSignificand = (binaryInput) => {
-//   // Convert binaryInput to string
-//   binaryInput = binaryInput.toString();
-//   // If the input is negative, remove the minus sign
-//   binaryInput = binaryInput.replace('-', '');
-//   // Split the binary input into integer and fractional parts
-//   let parts = binaryInput.split('.');
-//   // If there is no fractional part, return an empty string
-//   if (parts.length === 1) {
-//     return '1' + '0'.repeat(111); // Set the significand to have at least one 1 followed by 111 zeros
-//   }
-//   // If there is a fractional part, return the fractional part including any leading zeroes
-//   let fractionalPart = parts[1];
-//   // Add leading zeroes to make the significand 112 bits long
-//   while (fractionalPart.length < 112) {
-//     fractionalPart += '0';
-//   }
-//   return '1' + fractionalPart.substring(0, 111); // Set the significand to have at least one 1 followed by leading zeros to fill up to 111 bits
-// };
-
-
 
 document.querySelector("#submit").addEventListener("click", function (e) {
     e.preventDefault();
