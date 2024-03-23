@@ -71,6 +71,7 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         binaryInput = document.querySelector("#binary").value;
         baseInput = parseInt(document.querySelector("#base-2").value);
         console.log(binaryInput)
+        
         if (!validateBinary(binaryInput)) {
             if(binaryInput != "" && binaryInput != 0 && baseInput != "") {
                 alert('NaN input')
@@ -82,14 +83,18 @@ document.querySelector("#submit").addEventListener("click", function (e) {
 		}
         
     
-
     } else if (selectedForm === 'decimal') {
         decimalInput = parseFloat(document.querySelector("#decimal").value);
         baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
         console.log(decimalInput)
         console.log(baseInput)
+        
         if (!validateDecimal(decimalInput)) {
-            if(decimalInput === "" && !baseInput && baseInput != 0 || decimalInput === NaN && !baseInput && baseInput != 0 || !decimalInput && decimalInput != 0 && !baseInput && baseInput != 0 ) {
+            if(decimalInput === "" && !baseInput && 
+            baseInput != 0 || decimalInput === NaN && 
+            !baseInput && baseInput != 0 || 
+            !decimalInput && decimalInput != 0 && 
+            !baseInput && baseInput != 0 ) {
                 alert('Not a Number')
                 return
             } else {
