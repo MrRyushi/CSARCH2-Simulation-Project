@@ -195,7 +195,7 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         // SKIP ALL THE FUNCTIONS IF INPUT IS NAN
         signBit = "0"
         exponent = "1".repeat(15);
-        significand = completeSignificand("01")
+        significand = completeSignificand("10")
         binaryDigits = signBit + exponent + significand
         hexOutput = getHex(binaryDigits)
     }
