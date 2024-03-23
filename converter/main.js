@@ -236,5 +236,34 @@ document.querySelector("#submit").addEventListener("click", function (e) {
 
 );
 
+document.querySelector("#outputToFileButton").addEventListener("click", function() {
+    const hexOutput = document.querySelector("#hexOutput").innerHTML;
+    const signBit = document.querySelector("#signBit").innerHTML;
+    const exponent = document.querySelector("#exponent").innerHTML;
+    const significand = document.querySelector("#significand").innerHTML;
+
+    // Prepare the content to be written to the text file
+    const content = `Hex Output: ${hexOutput}\nSign Bit: ${signBit}\nExponent: ${exponent}\nSignificand: ${significand}`;
+
+    // Create a Blob with the content
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+
+    // Generate a URL for the Blob
+    const fileURL = URL.createObjectURL(blob);
+
+    // Create a temporary link to trigger the download
+    const tempLink = document.createElement("a");
+    tempLink.href = fileURL;
+    tempLink.download = "output.txt"; // Name of the file to be downloaded
+    document.body.appendChild(tempLink); // Append to the document
+    tempLink.click(); // Programmatically click the link to trigger the download
+
+    // Clean up by removing the temporary link and revoking the Blob URL
+    document.body.removeChild(tempLink);
+    URL.revokeObjectURL(fileURL);
+});
+
+
+
 
 
