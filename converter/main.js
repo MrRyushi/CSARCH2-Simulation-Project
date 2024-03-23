@@ -43,6 +43,11 @@ document.getElementById('formSelector').addEventListener('change', function() {
         binaryForm.classList.add('hidden');
         decimalForm.classList.remove('hidden');
     }
+
+    document.querySelector("#hexOutput").innerHTML = ""
+    document.querySelector("#signBit").innerHTML = ""
+    document.querySelector("#exponent").innerHTML = ""
+    document.querySelector("#significand").innerHTML = ""
 });
 
 const validateDecimal = (input) => {
@@ -59,25 +64,40 @@ document.querySelector("#submit").addEventListener("click", function (e) {
     e.preventDefault();
 
     let selectedForm = document.getElementById('formSelector').value;
-    let binaryInput, baseInput;
+    let binaryInput, baseInput, decimalInput
     let skipForNan = false;
 
     if (selectedForm === 'binary') {
         binaryInput = document.querySelector("#binary").value;
-        if (!validateBinary(binaryInput)) {
-            alert('Not a Binary')
-            skipForNan = true;
-		}
         baseInput = parseInt(document.querySelector("#base-2").value);
+        console.log(binaryInput)
+        if (!validateBinary(binaryInput)) {
+            if(binaryInput != "" && binaryInput != 0 && baseInput != "") {
+                alert('NaN input')
+                skipForNan = true;
+            } else {
+                alert('Not a Binary')
+                return
+            }
+		}
+        
+    
 
     } else if (selectedForm === 'decimal') {
-        let decimalInput = parseFloat(document.querySelector("#decimal").value);
-        if (!validateDecimal(decimalInput)) {
-            alert('Not a Number')
-            skipForNan = true;
-        }
+        decimalInput = parseFloat(document.querySelector("#decimal").value);
         baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
-        console.log("hello")
+        console.log(decimalInput)
+        console.log(baseInput)
+        if (!validateDecimal(decimalInput)) {
+            if(decimalInput === "" && !baseInput && baseInput != 0 || decimalInput === NaN && !baseInput && baseInput != 0 || !decimalInput && decimalInput != 0 && !baseInput && baseInput != 0 ) {
+                alert('Not a Number')
+                return
+            } else {
+                alert('NaN input')
+                skipForNan = true;
+            }
+        }
+
         // Adjust the decimal input according to the base input
         decimalInput *= Math.pow(10, baseInput);
         console.log(decimalInput)
