@@ -18,17 +18,18 @@
         </div>
 
         
-        <!-- Input Type-->
-        <div class="flex flex-wrap items-center justify-center gap-2 ">
-            <label for="formSelector" class="text-white text-xl">Select Input Type: </label>
-            <select id="formSelector" class="p-3 rounded-lg text-xl">
-                <option value="binary" class="text-xl" selected>Binary</option>
-                <option value="decimal" class="text-xl">Decimal</option>
-            </select>
-        </div>
+       
         <div class="flex items-center justify-center gap-10">
             
-            <div class="text-end text-xl">
+            <div class="text-end text-xl space-y-5">
+                 <!-- Input Type-->
+                <div class="flex flex-wrap items-center justify-center gap-2 me-16 w-full">
+                    <label for="formSelector" class="text-white text-xl">Select Input Type: </label>
+                    <select id="formSelector" class="p-2 rounded-lg text-xl w-inputWidth">
+                        <option value="binary" class="text-xl" selected>Binary</option>
+                        <option value="decimal" class="text-xl">Decimal</option>
+                    </select>
+                </div>
                 <!--Input-->
                 <div id="binaryForm" class="space-y-5">
                     <div>
@@ -59,16 +60,15 @@
                 
                 <!--Input-->
                 <div id="decimalForm" class="space-y-5 hidden">
-                    <div class=""></div>
                     <label for="decimal" class="text-white">Decimal Input:</label>
                     <input
-                    required
-                    id="decimal"
-                    type="num"
-                    min="0"
-                    max="2"
-                    placeholder="Decimal"
-                    class="rounded-lg p-2 col-span-2"
+                        required
+                        id="decimal"
+                        type="num"
+                        min="0"
+                        max="2"
+                        placeholder="Decimal"
+                        class="rounded-lg p-2 col-span-2"
                     />
                     <!--Input-->
                     <div class="">
@@ -102,16 +102,16 @@
         <div class="space-y-3">
             <h3 class="text-xl text-white text-center">Binary Output</h3>
             <div class="bg-white flex space-x-5 text-xl p-3 rounded-lg">
-            <h3 id="signBit" class="text-red-500"></h3>
-            <h3 id="exponent" class="text-green-500"></h3>
-            <h3 id="significand" class="text-blue-500"></h3>
+                <h3 id="signBit" class="text-red-500"></h3>
+                <h3 id="exponent" class="text-green-500"></h3>
+                <h3 id="significand" class="text-blue-500"></h3>
             </div>
             <h3 class="text-xl text-white text-center">Hex Output</h3>
             <div class="bg-white flex space-x-5 p-3 rounded-lg">
-            <h3 id="hexOutput" class="text-xl text-center mx-auto"></h3>
+                <h3 id="hexOutput" class="text-xl text-center mx-auto"></h3>
             </div>
 
-            <button id="outputToFileButton" type="button" class="mt-4 p-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out">
+            <button id="outputToFileButton" type="button" class="mt-4 p-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out mx-auto block">
                 Output To Text File
             </button>
 

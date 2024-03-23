@@ -1,16 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./dist/index.html",
-    "./index.html"
+    "./*.{html,js}",
+    "./**/*.{html,js}"
   ],
   theme: {
     extend: { 
+        width: {
+            "inputWidth": '59%'
+        }
     },
   },
-  plugins: [],
-  purge: [
-    "./index.html",
-  ],
+  plugins: []
 }
 
