@@ -31,4 +31,4 @@ To run the program locally, follow these steps:
 5. **Access the Application:**  
    - Once the program is running, you can access it through your web browser at: `http://localhost:5171`
 
-Alternatively, you may visit the deployed version, which is hosted using Netlify. Click on this link: [Binary-128 Floating Point Converter](https://65fea1c58b04d0000969cd65--binary128floatingpointconverter.netlify.app)
+Alternatively, you may visit the deployed version, which is hosted using Netlify. Click on this link: [Binary-128 Floating Point Converter](https://binary128floatingpointconverter.netlify.app)
