@@ -60,12 +60,13 @@ document.querySelector("#submit").addEventListener("click", function (e) {
 
     let selectedForm = document.getElementById('formSelector').value;
     let binaryInput, baseInput;
+    let skipForNan = false;
 
     if (selectedForm === 'binary') {
         binaryInput = document.querySelector("#binary").value;
         if (!validateBinary(binaryInput)) {
             alert("Invalid binary input");
-            return; // Exit the function early
+            skipForNan = true;
 		}
         baseInput = parseInt(document.querySelector("#base-2").value);
 
@@ -73,7 +74,7 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         let decimalInput = parseFloat(document.querySelector("#decimal").value);
         if (!validateDecimal(decimalInput)) {
             alert("Invalid decimal input");
-            return; // Exit the function early
+            skipForNan = true;
         }
         baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
         console.log("hello")
@@ -87,82 +88,99 @@ document.querySelector("#submit").addEventListener("click", function (e) {
         baseInput = 0;
     }
 
-  
-    // declare the binary digits
-    let binaryDigits = "";
-    let signBit = "";
-    let hexOutput, excess, exponent, significand, remainingDigits;
+        // declare the binary digits
+        let binaryDigits = "";
+        let signBit = "";
+        let hexOutput, excess, exponent, significand, remainingDigits;
 
-    // append the sign bit
-    if (binaryInput < 0) {
-        signBit = "1";
-        binaryInput *= -1; // make input positive
-    } else {
-        signBit = "0";
-    }
-        binaryDigits += signBit;
-
-    // normalize the binary input
-    if (binaryInput > 1) {
-        while (Math.floor(binaryInput) != 1) {
-            binaryInput /= 10;
-            baseInput += 1;
+    if(skipForNan == false) {
+        // append the sign bit
+        if (binaryInput < 0) {
+            signBit = "1";
+            binaryInput *= -1; // make input positive
+        } else {
+            signBit = "0";
         }
-    } else if (binaryInput < 1 && binaryInput > 0) {
-        while (Math.floor(binaryInput) != 1) {
-            binaryInput *= 10;
-            baseInput -= 1;
+            binaryDigits += signBit;
+
+        // normalize the binary input
+        if (binaryInput > 1) {
+            while (Math.floor(binaryInput) != 1) {
+                binaryInput /= 10;
+                baseInput += 1;
+            }
+        } else if (binaryInput < 1 && binaryInput > 0) {
+            while (Math.floor(binaryInput) != 1) {
+                binaryInput *= 10;
+                baseInput -= 1;
+            }
+        } else {
+            // baseInput and binaryinput remains the same
         }
-    } else {
-        // baseInput and binaryinput remains the same
-    }
 
 
-    if(binaryInput != 0) {
-        //=========== DENORMALIZED ============
-        if (baseInput < smallestExponentNormalized) {
-            // Denormalized case handling 
+        if(binaryInput != 0) {
+            //=========== DENORMALIZED ============
+            if (baseInput < smallestExponentNormalized) {
+                // Denormalized case handling 
+                exponent = "0".repeat(15);
+                binaryDigits = binaryDigits + exponent;
+
+                // Get the denormalized significand
+                remainingDigits = getRemainingDigits(binaryInput);
+                significand = completeSignificand(remainingDigits) 
+
+                binaryDigits = binaryDigits + significand;
+
+                // Get hex value
+                hexOutput = getHex(binaryDigits);
+
+            //=========== INFINITY ============
+            } else if (baseInput > largestExponentNormalized) {
+                // Denormalized case handling 
+                console.log("hello")
+                exponent = "1".repeat(15);
+                binaryDigits = binaryDigits + exponent;
+
+                // Get the denormalized significand
+                remainingDigits = getRemainingDigits("0");
+                significand = completeSignificand(remainingDigits) 
+
+                // append the significand
+                binaryDigits = binaryDigits + significand;
+
+                console.log(binaryDigits)
+
+                // Get hex value
+                hexOutput = getHex(binaryDigits);
+
+            } else {
+                // get the excess
+                excess = getExcess(baseInput);
+
+                // get the binary value of excess and append
+                exponent = getBinary(excess);
+                binaryDigits = binaryDigits + exponent;
+
+                // get the remaining digits
+                remainingDigits = getRemainingDigits(binaryInput);
+
+                // add zeroes to binary if not complete
+                significand = completeSignificand(remainingDigits);
+                binaryDigits = binaryDigits + significand;
+
+                // get hex value
+                hexOutput = getHex(binaryDigits);
+            }
+        
+        //=========== ZERO ============
+        } else if (binaryInput == 0) {  
+            // get the binary value of excess and append
             exponent = "0".repeat(15);
             binaryDigits = binaryDigits + exponent;
 
-            // Get the denormalized significand
-            remainingDigits = getRemainingDigits(binaryInput);
-            significand = completeSignificand(remainingDigits) 
-
-            binaryDigits = binaryDigits + significand;
-
-            // Get hex value
-            hexOutput = getHex(binaryDigits);
-
-        //=========== INFINITY ============
-        } else if (baseInput > largestExponentNormalized) {
-            // Denormalized case handling 
-            console.log("hello")
-            exponent = "1".repeat(15);
-            binaryDigits = binaryDigits + exponent;
-
-            // Get the denormalized significand
-            remainingDigits = getRemainingDigits("0");
-            significand = completeSignificand(remainingDigits) 
-
-            // append the significand
-            binaryDigits = binaryDigits + significand;
-
-            console.log(binaryDigits)
-
-            // Get hex value
-            hexOutput = getHex(binaryDigits);
-
-        } else {
-            // get the excess
-            excess = getExcess(baseInput);
-
-            // get the binary value of excess and append
-            exponent = getBinary(excess);
-            binaryDigits = binaryDigits + exponent;
-
             // get the remaining digits
-            remainingDigits = getRemainingDigits(binaryInput);
+            remainingDigits = getRemainingDigits("0");
 
             // add zeroes to binary if not complete
             significand = completeSignificand(remainingDigits);
@@ -170,26 +188,18 @@ document.querySelector("#submit").addEventListener("click", function (e) {
 
             // get hex value
             hexOutput = getHex(binaryDigits);
+        } else {
+
         }
-     
-    //=========== ZERO ============
-    } else if (binaryInput == 0) {  
-        // get the binary value of excess and append
-        exponent = "0".repeat(15);
-        binaryDigits = binaryDigits + exponent;
-
-        // get the remaining digits
-        remainingDigits = getRemainingDigits("0");
-
-        // add zeroes to binary if not complete
-        significand = completeSignificand(remainingDigits);
-        binaryDigits = binaryDigits + significand;
-
-        // get hex value
-        hexOutput = getHex(binaryDigits);
     } else {
-  
+        // SKIP ALL THE FUNCTIONS IF INPUT IS NAN
+        signBit = "0"
+        exponent = "1".repeat(15);
+        significand = completeSignificand("01")
+        binaryDigits = signBit + exponent + significand
+        hexOutput = getHex(binaryDigits)
     }
+   
     
   // assign to output element
     document.querySelector("#hexOutput").innerHTML = hexOutput;
