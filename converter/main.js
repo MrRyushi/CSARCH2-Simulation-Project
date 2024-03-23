@@ -65,7 +65,6 @@ document.querySelector("#submit").addEventListener("click", function (e) {
     if (selectedForm === 'binary') {
         binaryInput = document.querySelector("#binary").value;
         if (!validateBinary(binaryInput)) {
-            alert("Invalid binary input");
             skipForNan = true;
 		}
         baseInput = parseInt(document.querySelector("#base-2").value);
@@ -73,7 +72,6 @@ document.querySelector("#submit").addEventListener("click", function (e) {
     } else if (selectedForm === 'decimal') {
         let decimalInput = parseFloat(document.querySelector("#decimal").value);
         if (!validateDecimal(decimalInput)) {
-            alert("Invalid decimal input");
             skipForNan = true;
         }
         baseInput = parseInt(document.querySelector("#base-10").value); // Get the base input
