@@ -1,99 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite App</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
     <div class="flex justify-center items-center h-screen bg-slate-900">
-      <div class="space-y-10">
+        <div class="space-y-10">
         <!--Header-->
         <div>
-          <h1 class="century-gothic text-5xl text-white text-center">
+            <h1 class="century-gothic text-5xl text-white text-center">
             CSARCH2 - Binary 128 Floating Point Converter
-          </h1>
+            </h1>
         </div>
 
         
-
-        <div class="flex flex-col items-center justify-center gap-10">
-          <div class="text-end text-xl">
-            <!-- Input Type-->
-            <div class="flex flex-wrap items-center justify-center gap-2 ">
-              <label for="formSelector" class="text-white">Select Input Type: </label>
-              <select id="formSelector" class="p-3 bg-slate-300 rounded-lg">
-                <option value="binary" selected>Binary</option>
-                <option value="decimal">Decimal</option>
-              </select>
-            </div>
-            <!--Input-->
-            <div id="binaryForm" class="space-y-5">
-              <div class=""></div>
-              <label for="binary" class="text-white">Binary Input:</label>
-              <input
-                required
-                id="binary"
-                type="num"
-                min="0"
-                max="1"
-                placeholder="Binary"
-                class="rounded-lg p-2 col-span-2"
-              />
-              <!--Input-->
-              <div class="">
-                <label for="base-2" class="text-white">Base-2 Exponent:</label>
-                <input
-                  required
-                  id="base-2"
-                  type="num"
-                  placeholder="Base-2"
-                  class="rounded-lg p-2 col-span-2"
-                />
-              </div>
+        <!-- Input Type-->
+        <div class="flex flex-wrap items-center justify-center gap-2 ">
+            <label for="formSelector" class="text-white text-xl">Select Input Type: </label>
+            <select id="formSelector" class="p-3 rounded-lg text-xl">
+                <option value="binary" class="text-xl" selected>Binary</option>
+                <option value="decimal" class="text-xl">Decimal</option>
+            </select>
+        </div>
+        <div class="flex items-center justify-center gap-10">
+            
+            <div class="text-end text-xl">
+                <!--Input-->
+                <div id="binaryForm" class="space-y-5">
+                    <div>
+                        <label for="binary" class="text-white">Binary Input:</label>
+                        <input
+                            required
+                            id="binary"
+                            type="num"
+                            min="0"
+                            max="1"
+                            placeholder="Binary"
+                            class="rounded-lg p-2 col-span-2"
+                        />
+                    </div>
+                        
+                    <!--Input-->
+                    <div class="">
+                        <label for="base-2" class="text-white">Base-2 Exponent:</label>
+                        <input
+                            required
+                            id="base-2"
+                            type="num"
+                            placeholder="Base-2"
+                            class="rounded-lg p-2 col-span-2"
+                        />
+                    </div>
+                </div>
+                
+                <!--Input-->
+                <div id="decimalForm" class="space-y-5 hidden">
+                    <div class=""></div>
+                    <label for="decimal" class="text-white">Decimal Input:</label>
+                    <input
+                    required
+                    id="decimal"
+                    type="num"
+                    min="0"
+                    max="2"
+                    placeholder="Decimal"
+                    class="rounded-lg p-2 col-span-2"
+                    />
+                    <!--Input-->
+                    <div class="">
+                    <label for="base-10" class="text-white">Base-10 Exponent:</label>
+                    <input
+                        required
+                        id="base-10"
+                        type="num"
+                        placeholder="Base-10"
+                        class="rounded-lg p-2 col-span-2"
+                    />
+                    </div>
+                </div>
             </div>
             
-            <!--Input-->
-            <div id="decimalForm" class="space-y-5 hidden">
-              <div class=""></div>
-              <label for="decimal" class="text-white">Decimal Input:</label>
-              <input
-                required
-                id="decimal"
-                type="num"
-                min="0"
-                max="2"
-                placeholder="Decimal"
-                class="rounded-lg p-2 col-span-2"
-              />
-              <!--Input-->
-              <div class="">
-                <label for="base-10" class="text-white">Base-10 Exponent:</label>
-                <input
-                  required
-                  id="base-10"
-                  type="num"
-                  placeholder="Base-10"
-                  class="rounded-lg p-2 col-span-2"
-                />
-              </div>
-            </div>
-          </div>
-            
-          
+            <!---Button-->
             <div class="flex items-center justify-center gap-2 space-y-2">
                         
-              <!---Button-->
-              <div class="flex flex-wrap items-center gap-2">
                 <button
-                  id="submit"
-                  class="text-white bg-yellow-700 p-5 px-5 rounded-lg font-bold"
+                    id="submit"
+                    class="text-white bg-yellow-700 p-5 px-5 rounded-lg font-bold"
                 >
-                  Get Conversion
+                    Get Conversion
                 </button>
-              </div>
             </div>
         </div>
 
@@ -101,19 +100,24 @@
 
         <!--Output-->
         <div class="space-y-3">
-          <h3 class="text-xl text-white text-center">Binary Output</h3>
-          <div class="bg-white flex space-x-5 text-xl p-3 rounded-lg">
+            <h3 class="text-xl text-white text-center">Binary Output</h3>
+            <div class="bg-white flex space-x-5 text-xl p-3 rounded-lg">
             <h3 id="signBit" class="text-red-500"></h3>
             <h3 id="exponent" class="text-green-500"></h3>
             <h3 id="significand" class="text-blue-500"></h3>
-          </div>
-          <h3 class="text-xl text-white text-center">Hex Output</h3>
-          <div class="bg-white flex space-x-5 p-3 rounded-lg">
+            </div>
+            <h3 class="text-xl text-white text-center">Hex Output</h3>
+            <div class="bg-white flex space-x-5 p-3 rounded-lg">
             <h3 id="hexOutput" class="text-xl text-center mx-auto"></h3>
-          </div>
+            </div>
+
+            <button id="outputToFileButton" type="button" class="mt-4 p-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out">
+                Output To Text File
+            </button>
+
         </div>
-      </div>
+        </div>
     </div>
     <script type="module" src="/main.js"></script>
-  </body>
+    </body>
 </html>
